@@ -1,0 +1,55 @@
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap");
+
+html,
+body,
+#root,
+.app {
+  height: 100%;
+  width: 100%;
+  font-family: "Inter", sans-serif;
+}
+
+::-webkit-scrollbar {
+  width: 10px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+  background: #7a7f9d;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: #21295c;
+}
+
+/* Handle on Hover */
+::-webkit-scrollbar-track:hover {
+  background: #21295c;
+}
+.borderless-table {
+  border-collapse: collapse; /* Collapse borders to avoid double borders */
+  width: 100%; /* Optional: Set width to your preference */
+}
+
+.borderless-table th,
+.borderless-table td {
+  border: 1px solid black; /* Add inner borders */
+  padding: 8px; /* Add padding for better spacing */
+}
+
+/* Remove left and right outer borders on the table itself */
+.borderless-table {
+  border-left: none; /* Remove left outer border */
+  border-right: none; /* Remove right outer border */
+}
+
+.borderless-table th:first-child,
+.borderless-table td:first-child {
+  border-left: none; /* Ensure no left border on first child */
+}
+
+.borderless-table th:last-child,
+.borderless-table td:last-child {
+  border-right: none; /* Ensure no right border on last child */
+}
