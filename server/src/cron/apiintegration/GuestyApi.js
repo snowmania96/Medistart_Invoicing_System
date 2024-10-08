@@ -31,7 +31,7 @@ export const fetchReservationInfo = async (apiKey, id) => {
   } catch (error) {
     if (error.status == 401) {
       const newApiKey = await saveGuestyAuthKey();
-      await fetchReservationId(newApiKey, today);
+      await fetchReservationInfo(newApiKey, id);
     }
     console.log("Fetch Reservation Info Error: ", error);
   }

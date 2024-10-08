@@ -1,12 +1,9 @@
 import React, { useState } from "react";
-import { Box, Button, Menu, MenuItem, useMediaQuery } from "@mui/material";
+import { Box, Button, Menu, MenuItem } from "@mui/material";
 import Header from "components/Header";
-import { format, isPast } from "date-fns";
+import { format } from "date-fns";
 import AddIcon from "@mui/icons-material/Add";
-import { blueGrey, lightBlue } from "@mui/material/colors";
 import { Card, CardContent, useTheme, TextField } from "@mui/material";
-import EditIcon from "@mui/icons-material/Edit";
-import { GridMenuIcon } from "@mui/x-data-grid";
 
 export default function Schema() {
   const theme = useTheme();
@@ -51,13 +48,15 @@ export default function Schema() {
     <Box m="1.5rem 2.5rem">
       <Header title="SCHEMA" subtitle="See our receipt schema." />
       <div
-        style={{ display: "flex", justifyContent: "flex-end", width: "80%" }}>
+        style={{ display: "flex", justifyContent: "flex-end", width: "80%" }}
+      >
         <Button
           variant="contained"
           color="error"
           disabled={editable}
           onClick={() => setEditable(!editable)}
-          style={{ marginRight: "15px" }}>
+          style={{ marginRight: "15px" }}
+        >
           E d i t
         </Button>
 
@@ -65,7 +64,8 @@ export default function Schema() {
           variant="contained"
           color="success"
           disabled={!editable}
-          onClick={() => setEditable(!editable)}>
+          onClick={() => setEditable(!editable)}
+        >
           S a v e
         </Button>
       </div>
@@ -77,14 +77,16 @@ export default function Schema() {
           width: "60%",
           margin: "auto",
           marginTop: "20px",
-        }}>
+        }}
+      >
         <CardContent sx={{ marginLeft: "15px", marginRight: "15px" }}>
           <div
             style={{
               display: "flex",
               flexDirection: "column",
               //   padding: "50px",
-            }}>
+            }}
+          >
             <div style={{ textAlign: "center" }}>
               <small>
                 Questa anteprima potrebbe differire leggermente dal documento
@@ -158,7 +160,8 @@ export default function Schema() {
                 display: "flex",
                 justifyContent: "flex-end",
                 marginTop: "15px",
-              }}>
+              }}
+            >
               <Button
                 variant="contained"
                 color="secondary"
@@ -166,7 +169,8 @@ export default function Schema() {
                 aria-controls={open ? "variable-menu" : undefined}
                 aria-haspopup="true"
                 aria-expanded={open ? "true" : undefined}
-                onClick={handleClick}>
+                onClick={handleClick}
+              >
                 <AddIcon fontSize="small" />
                 Add Variable
               </Button>
@@ -175,12 +179,14 @@ export default function Schema() {
                 anchorEl={anchorEl}
                 open={open}
                 onClose={handleClose}
-                MenuListProps={{ "aria-labelledby": "add-variable" }}>
+                MenuListProps={{ "aria-labelledby": "add-variable" }}
+              >
                 {variableList.map((variable) => (
                   <MenuItem
                     id={variable}
                     value={variable}
-                    onClick={handleMenuItemClick}>
+                    onClick={handleMenuItemClick}
+                  >
                     {variable}
                   </MenuItem>
                 ))}
@@ -226,7 +232,8 @@ export default function Schema() {
                         display: "flex",
                         flexDirection: "row",
                         justifyContent: "space-between",
-                      }}>
+                      }}
+                    >
                       <div>
                         <small>RIEPILOGO IVA</small>
                       </div>
@@ -242,7 +249,8 @@ export default function Schema() {
                         display: "flex",
                         flexDirection: "row",
                         justifyContent: "space-between",
-                      }}>
+                      }}
+                    >
                       <div>
                         <small>0% - Esente Art.10 DPR 633/72 </small>
                       </div>
@@ -266,11 +274,13 @@ export default function Schema() {
                     <br />
                     <br />
                     <div
-                      style={{ display: "flex", justifyContent: "flex-end" }}>
+                      style={{ display: "flex", justifyContent: "flex-end" }}
+                    >
                       <small>Imponibile € {"{{money}}"}</small>
                     </div>
                     <div
-                      style={{ display: "flex", justifyContent: "flex-end" }}>
+                      style={{ display: "flex", justifyContent: "flex-end" }}
+                    >
                       <h2>€ {"{{money}}"}</h2>
                     </div>
                   </td>
@@ -283,7 +293,8 @@ export default function Schema() {
                   display: "flex",
                   flexDirection: "row",
                   justifyContent: "space-between",
-                }}>
+                }}
+              >
                 <div>
                   <small>
                     Ricevuta nr. {"{{receiptNumber}}"} /{" "}
