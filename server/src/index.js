@@ -47,14 +47,8 @@ app.listen(PORT, () =>
 cron.schedule(
   "46 16 * * *",
   async () => {
-    console.log("Cron Started");
-    await cronWork("2024-10-11");
-    // for (let i = 1; i <= 7; i++) {
-    //   let day;
-    //   if (i < 10) day = `2024-10-0${i}`;
-    //   else day = `2024-09-${i}`;
-    //   await cronWork(day);
-    // }
+    const today = new Date().toISOString().split("T")[0];
+    await cronWork("today");
   },
   {
     scheduled: true,
