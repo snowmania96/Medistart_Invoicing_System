@@ -58,7 +58,7 @@ body,
   height: 100%;
   background-position: center;
   background-size: cover;
-  padding: 40px;
+  padding: 20px;
   background-image: url(./assets/background.jpg);
 }
 
@@ -152,18 +152,18 @@ body,
     width: 100%;
   }
   .guestName {
-    font-size: 28px;
+    font-size: 26px;
   }
   .reservationInfo {
     font-size: 14px;
   }
   .represent {
-    font-size: 20px;
+    font-size: 18px;
     white-space: nowrap;
     margin: auto;
   }
   .isIndividual {
-    font-size: 16px;
+    font-size: 15px;
   }
   .formControl {
     display: flex;
@@ -173,8 +173,8 @@ body,
     display: flex;
     flex-direction: row;
     justify-content: center;
-    margin-top: 0px;
-    margin-bottom: -10px;
+    margin-top: -7px;
+    margin-bottom: -7px;
   }
   .inputLabel {
     font-size: 14px;
@@ -188,11 +188,12 @@ body,
     justify-content: space-between;
     margin-right: 0px;
     margin-left: 0px;
+    margin-top: 10px;
   }
   .inputCountrySelect {
     display: flex;
     flex-direction: row;
-    margin-top: 15px;
+    margin-top: 10px;
     margin-left: 0px;
   }
   .vatFieldDirection {
@@ -201,12 +202,12 @@ body,
     justify-content: space-between;
   }
   .declareText {
-    font-size: 18px;
+    font-size: 17px;
     margin-top: 10px;
   }
   .totalMoney {
     font-size: 24px;
-    margin-top: 5px;
+    margin-top: 0px;
   }
   .finalButtonField {
     margin-top: 15px;

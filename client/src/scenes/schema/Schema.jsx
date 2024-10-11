@@ -1,30 +1,57 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Box, Button, Menu, MenuItem } from "@mui/material";
+import axios from "axios";
 import Header from "components/Header";
 import { format } from "date-fns";
+import "react-toastify/dist/ReactToastify.css";
+import { toast, ToastContainer } from "react-toastify";
 import AddIcon from "@mui/icons-material/Add";
 import { Card, CardContent, useTheme, TextField } from "@mui/material";
+
+const END_POINT = process.env.REACT_APP_BASE_URL;
+
+const variableList = [
+  "fiscalInformation",
+  "apartmentAddress",
+  "apartmentNickname",
+  "checkIn",
+  "checkOut",
+  "reservationId",
+  "confirmationCode",
+  "guestName",
+  "companyName",
+];
+
+const jwtToken = () => {
+  const authData = JSON.parse(localStorage.getItem("admin"));
+  return "Bearer " + String(authData.token);
+};
 
 export default function Schema() {
   const theme = useTheme();
   const today = format(new Date(), "MM/dd/yyyy");
-  const [schema, setSchema] = useState(
-    `NOTE \nIBAN IT07U0503420800000000000603 - Banco BPM - Fil. Rovereto \n\nHost Name\nCasabot s.r.l., Corso di Porta Vittoria 7, 20122 Milano, Italia, Partita IVA IT13189700969\n\nApartment Address\n{{apartmentAddress}}\n\nFiscal Information\n{{fiscalInformation}}\n\nAllegati:\n1) Identificazione conduttore o subconduttore\n2) Contratto di locazione concluso per via telematica ai sensi del decreto legislativo 70/03 come da codice univoco riportato nella ricevuta allegata\n\nTutti gli allegati ed il contratto formano parte integrante del presente rapporto.`
-  );
+  const [schema, setSchema] = useState("");
   const [editable, setEditable] = useState(false);
   const [anchorEl, setAnchorEl] = useState(null);
   const open = Boolean(anchorEl);
-  const variableList = [
-    "fiscalInformation",
-    "apartmentAddress",
-    "apartmentNickname",
-    "checkIn",
-    "checkOut",
-    "reservationId",
-    "confirmationCode",
-    "guestName",
-    "money",
-  ];
+
+  useEffect(() => {
+    fetchData();
+  }, []);
+
+  const fetchData = async () => {
+    try {
+      const response = await axios.get(`${END_POINT}/schema/get`, {
+        headers: {
+          Authorization: jwtToken(),
+        },
+      });
+      setSchema(response.data.note);
+    } catch (err) {
+      console.log(err.response.data.error);
+    }
+  };
+
   const handleChange = (e) => {
     const { value } = e.target;
     setSchema(value);
@@ -43,6 +70,28 @@ export default function Schema() {
       setSchema(schema + `{{${e.target.id}}}`);
     }
   };
+
+  const handleSaveButtonClick = async () => {
+    try {
+      const response = await axios.post(
+        `${END_POINT}/schema/update`,
+        {
+          name: "InvoiceSchema",
+          note: schema,
+        },
+        {
+          headers: {
+            Authorization: jwtToken(),
+          },
+        }
+      );
+      setEditable(!editable);
+      toast.success(response.data.msg, { position: "top-right" });
+    } catch (err) {
+      toast.error(err.response.data.error, { position: "top-right" });
+    }
+  };
+
   // console.log(schema);
   return (
     <Box m="1.5rem 2.5rem">
@@ -64,7 +113,7 @@ export default function Schema() {
           variant="contained"
           color="success"
           disabled={!editable}
-          onClick={() => setEditable(!editable)}
+          onClick={handleSaveButtonClick}
         >
           S a v e
         </Button>
@@ -197,7 +246,7 @@ export default function Schema() {
               id="Note"
               multiline
               fullWidth
-              rows={20}
+              rows={50}
               color="error"
               focused
               slotProps={{
@@ -309,6 +358,7 @@ export default function Schema() {
           </div>
         </CardContent>
       </Card>
+      <ToastContainer />
     </Box>
   );
 }

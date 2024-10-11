@@ -9,12 +9,14 @@ export default function InputField({ name, value, fieldName, onChange }) {
       <TextField
         variant="outlined"
         name={name}
+        type={name === "email" ? "email" : null}
         value={value}
+        required
         onChange={onChange}
         color="default"
         size="small"
         fullWidth
-        InputProps={{ style: { fontSize: 12 } }}
+        InputProps={{ style: { fontSize: window.innerWidth > 1000 ? 16 : 12 } }}
       />
     </div>
   );

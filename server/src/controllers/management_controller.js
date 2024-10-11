@@ -13,21 +13,23 @@ export const authAdmins = async (req, res) => {
     const { name, password } = req.body;
 
     if (!name || !password) {
-      res.status(422).json({ message: "Please fill all the fields" });
+      return res.status(422).json({ message: "Please fill all the fields" });
     }
 
     const admin = await User.findOne({ name: name, role: "admin" });
     if (admin && (await bcrypt.compare(password, admin.password))) {
-      res.status(200).json({
+      return res.status(200).json({
         name: name,
         token: generateJwtToken(admin.name),
       });
       // console.log(jwt.decode(generateJwtToken(admin._id)));
     } else {
-      res.status(422).json({ message: "Invalid password" });
+      return res.status(422).json({ message: "Invalid password" });
     }
   } catch (err) {
-    res.status(400).json({ message: "Incorrect admin name or password" });
+    return res
+      .status(400)
+      .json({ message: "Incorrect admin name or password" });
   }
 };
 
@@ -35,7 +37,7 @@ export const fetchAdmins = async (req, res) => {
   try {
     const admins = await User.find({ role: "admin" }).select("-password");
 
-    res.status(200).json(admins);
+    return res.status(200).json(admins);
   } catch (error) {
     res.status(422).json({ message: error.message });
   }
@@ -47,11 +49,11 @@ export const createAdmins = async (req, res) => {
       req.body;
     //  check if all fields are filled
     if (!name || !password) {
-      res.status(422).json({ message: "Please Fill All The Fields." });
+      return res.status(422).json({ message: "Please Fill All The Fields." });
     }
 
     if (role !== "admin") {
-      res.status(422).json({ message: "Have to be admin role" });
+      return res.status(422).json({ message: "Have to be admin role" });
     }
 
     // check if user already created
@@ -75,7 +77,7 @@ export const createAdmins = async (req, res) => {
     });
 
     if (user) {
-      res.status(200).json({
+      return res.status(200).json({
         _id: user._id,
         name: user.name,
         token: generateJwtToken(user._id),

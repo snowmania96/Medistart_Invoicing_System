@@ -6,7 +6,7 @@ export const createApartment = async (req, res) => {
 
     //Check if the fields are filled
     if (!name || !address) {
-      res.status(422).json({ error: "Have to fill required fields" });
+      return res.status(422).json({ error: "Have to fill required fields" });
     }
 
     //check if apartment already created
@@ -81,7 +81,7 @@ export const updateApartment = async (req, res) => {
       req.body,
       { new: true }
     );
-    res.status(200).json({ msg: "Update Apartment Succeed" });
+    return res.status(200).json({ msg: "Update Apartment Succeed" });
   } catch (err) {
     console.log("Update Apartment Error");
   }

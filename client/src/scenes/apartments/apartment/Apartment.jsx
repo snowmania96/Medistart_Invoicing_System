@@ -18,6 +18,11 @@ import { toast } from "react-toastify";
 
 const END_POINT = process.env.REACT_APP_BASE_URL;
 
+const jwtToken = () => {
+  const authData = JSON.parse(localStorage.getItem("admin"));
+  return "Bearer " + String(authData.token);
+};
+
 const Product = ({ _id, name, address, photo, information }) => {
   const theme = useTheme();
   const [isExpanded, setIsExpanded] = useState(false);
@@ -39,6 +44,11 @@ const Product = ({ _id, name, address, photo, information }) => {
           name: name,
           address: address,
           information: fiscalInformation,
+        },
+        {
+          headers: {
+            Authorization: jwtToken(),
+          },
         }
       );
       console.log(response.data);
@@ -90,47 +100,30 @@ const Product = ({ _id, name, address, photo, information }) => {
           }}
         >
           <div style={{ marginRight: "15px" }}>
-            <Typography variant="body2" style={{ marginTop: "15px" }}>
+            <Typography variant="body2" style={{ marginTop: "20px" }}>
               {address}
             </Typography>
           </div>
           <img alt="room photo" src={photo} width="150px" height="150px"></img>
         </div>
       </CardContent>
-      <CardActions>
-        <Button
-          variant="primary"
+
+      <CardContent>
+        <TextField
+          label="Fiscal Information"
+          multiline
+          fullWidth
+          rows={7}
           size="small"
-          onClick={() => setIsExpanded(!isExpanded)}
-        >
-          See More
-        </Button>
-      </CardActions>
-      <Collapse
-        in={isExpanded}
-        timeout="auto"
-        unmountOnExit
-        sx={{
-          color: theme.palette.neutral[300],
-        }}
-      >
-        <CardContent>
-          <TextField
-            label="Fiscal Information"
-            multiline
-            fullWidth
-            rows={10}
-            size="small"
-            value={fiscalInformation}
-            onChange={handleFiscalInformationChange}
-            slotProps={{
-              input: {
-                readOnly: !isEditable,
-              },
-            }}
-          />
-        </CardContent>
-      </Collapse>
+          value={fiscalInformation}
+          onChange={handleFiscalInformationChange}
+          slotProps={{
+            input: {
+              readOnly: !isEditable,
+            },
+          }}
+        />
+      </CardContent>
     </Card>
   );
 };

@@ -32,7 +32,12 @@ const UserSchema = new mongoose.Schema(
     reservationId: String,
     checkIn: String,
     checkOut: String,
+    documentId: String,
     extra: String,
+    finalized: {
+      type: Boolean,
+      default: false,
+    },
   },
   { timestamps: true }
 );

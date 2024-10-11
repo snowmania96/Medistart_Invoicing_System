@@ -6,12 +6,10 @@ import dotenv from "dotenv";
 import managementRoutes from "./routes/management.js";
 import guestRoutes from "./routes/guest.js";
 import apartmentRoutes from "./routes/apartment.js";
+import invoiceRoutes from "./routes/invoice.js";
 import cron from "node-cron";
 import { cronWork } from "./cron/cronWork.js";
-import {
-  fetchReservationId,
-  fetchReservationInfo,
-} from "./cron/apiintegration/GuestyApi.js";
+import schemaRoutes from "./routes/schema.js";
 
 /* CONFIGURATION */
 dotenv.config();
@@ -26,6 +24,8 @@ app.use(cors());
 app.use("/api/management", managementRoutes);
 app.use("/api/guest", guestRoutes);
 app.use("/api/apartment", apartmentRoutes);
+app.use("/api/schema", schemaRoutes);
+app.use("/api/invoice", invoiceRoutes);
 /* MONGOOSE SETUP */
 const PORT = process.env.PORT || 9000;
 
@@ -45,15 +45,16 @@ app.listen(PORT, () =>
 //Node cron
 
 cron.schedule(
-  "52 7 * * *",
+  "46 16 * * *",
   async () => {
     console.log("Cron Started");
-    for (let i = 1; i <= 7; i++) {
-      let day;
-      if (i < 10) day = `2024-10-0${i}`;
-      else day = `2024-09-${i}`;
-      await cronWork(day);
-    }
+    await cronWork("2024-10-11");
+    // for (let i = 1; i <= 7; i++) {
+    //   let day;
+    //   if (i < 10) day = `2024-10-0${i}`;
+    //   else day = `2024-09-${i}`;
+    //   await cronWork(day);
+    // }
   },
   {
     scheduled: true,

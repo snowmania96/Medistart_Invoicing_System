@@ -1,37 +1,40 @@
 import Apartment from "../model/Apartment.js";
 import User from "../model/User.js";
+import fs from "fs";
 
 import {
   fetchReservationId,
   fetchReservationInfo,
 } from "./apiintegration/GuestyApi.js";
-import fs from "fs";
-
-let guestyAuthKey = fs.readFileSync("./config.js", "utf8");
+import { createNewReceipt } from "./apiintegration/FattureApi.js";
+import { getReceiptNumber, updateReceiptNumber } from "../config/config.js";
 
 export const cronWork = async (day) => {
   try {
+    //Get Auth key from the config.js
+    let guestyAuthKey = fs.readFileSync("./config.js", "utf8");
+
+    //Fetch reservation list checking out this day
     const reservationIdList = await fetchReservationId(guestyAuthKey, day);
-    // console.log(reservationIdList);
-    // fs.writeFileSync(
-    //   "./reservation.json",
-    //   JSON.stringify(reservationIdList),
-    //   (err) => {
-    //     if (err) {
-    //       console.error(err);
-    //       return;
-    //     }
-    //   }
-    // );
+
+    //Get Auth Key again cause it can be changed in fetchreservationId fuction.
     guestyAuthKey = fs.readFileSync("./config.js", "utf8");
 
+    //Create temp receipt to the Fatture
     for (let i = 0; i < reservationIdList.length; i++) {
       if (reservationIdList[i].status != "confirmed") continue;
       const reservationInfo = await fetchReservationInfo(
         guestyAuthKey,
         reservationIdList[i]._id
       );
-      // fs.writeFileSync("reservation.json", JSON.stringify(reservationInfo));
+      //Fetch receipt document number from database
+      const receiptNumber = await getReceiptNumber(day);
+
+      // //Create Temp Fatture Receipts.
+      const result = await createNewReceipt(reservationInfo, receiptNumber);
+
+      // //Update document number
+      await updateReceiptNumber(receiptNumber + 1);
 
       //Save in Database
       const findApartment = await Apartment.findOne({
@@ -56,6 +59,8 @@ export const cronWork = async (day) => {
           reservationId: reservationInfo._id,
           checkIn: reservationInfo.checkIn.split("T")[0],
           checkOut: reservationInfo.checkOut.split("T")[0],
+          documentId: result.data.id,
+          extra: result.data.url,
           role: "user",
         });
       }

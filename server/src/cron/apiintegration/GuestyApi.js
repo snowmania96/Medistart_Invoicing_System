@@ -14,8 +14,8 @@ export const fetchReservationId = async (apiKey, today) => {
     console.log(error.status);
     if (error.status == 401) {
       const newApiKey = await saveGuestyAuthKey();
-      console.log(newApiKey);
-      await fetchReservationId(newApiKey, today);
+      // console.log(newApiKey);
+      return await fetchReservationId(newApiKey, today);
     }
     console.log("Fetch Reservation Id Error: ", error);
   }
@@ -31,7 +31,7 @@ export const fetchReservationInfo = async (apiKey, id) => {
   } catch (error) {
     if (error.status == 401) {
       const newApiKey = await saveGuestyAuthKey();
-      await fetchReservationInfo(newApiKey, id);
+      return await fetchReservationInfo(newApiKey, id);
     }
     console.log("Fetch Reservation Info Error: ", error);
   }

@@ -7,7 +7,7 @@ export const createGuest = async (req, res) => {
 
     //Check if the fields are filled
     if (!name) {
-      res.status(422).json({ error: "Have to fill required fields" });
+      return res.status(422).json({ error: "Have to fill required fields" });
     }
 
     //check if guest already created
@@ -27,7 +27,7 @@ export const createGuest = async (req, res) => {
       role: role,
     });
     if (guest) {
-      res.status(200).json(guest);
+      return res.status(200).json(guest);
     } else {
       return res.status(422).json({ message: "Creation Failed." });
     }

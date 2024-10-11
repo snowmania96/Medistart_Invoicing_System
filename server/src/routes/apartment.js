@@ -2,7 +2,6 @@ import express from "express";
 import {
   createApartment,
   getApartments,
-  getApartmentsForm,
   deleteApartment,
   updateApartment,
   getApartment,
@@ -12,9 +11,8 @@ const router = express.Router();
 
 router.post("/create", createApartment);
 router.get("/get", auth, getApartments);
-router.get("/getForm", getApartmentsForm);
 router.get("/get/:id", getApartment);
-router.post("/update/:id", updateApartment);
+router.post("/update/:id", auth, updateApartment);
 router.delete("/delete/:id", deleteApartment);
 
 export default router;

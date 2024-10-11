@@ -11,6 +11,7 @@ import {
   Schema,
   SignIn,
   Invoice,
+  PageNotFound,
 } from "scenes";
 import PrivateRoute from "components/PrivateRoute";
 import { isExpired } from "react-jwt";
@@ -38,11 +39,12 @@ function App() {
           <Routes>
             <Route path="/signIn" element={<SignIn />} />
             <Route path="/invoice/:id" element={<Invoice />} />
+            <Route path="/invoice/pagenotfound" element={<PageNotFound />} />
             <Route element={<PrivateRoute />}>
               <Route element={<Layout />}>
                 <Route
                   path="/"
-                  element={<Navigate to="/apartments" replase />}
+                  element={<Navigate to="/apartments" replace />}
                 />
                 <Route path="/apartments" element={<Apartments />} />
                 <Route path="/guests" element={<Guests />} />
